@@ -40,5 +40,6 @@ typedef enum {
 @interface FSM : NSObject
 
 - (void)deal:(NSNumber *)done;
-
+- (void)playcards:(NSNumber *)p;
+- (void)hey;
 @end

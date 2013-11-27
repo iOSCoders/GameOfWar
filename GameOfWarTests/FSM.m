@@ -8,6 +8,8 @@
 
 #import "FSM.h"
 
+static int iteration = 0;
+
 @interface FSM() {
     GameFSM game;
     DealerFSM dealer;
@@ -89,18 +91,67 @@
     if (withHeader) {
         printf("\n             game\t           dealer\t               p1\t               p2\t             hand\n");
         printf(  "_________________\t_________________\t_________________\t_________________\t_________________\n");
+    } else {
+        printf("%17.17s\t%17.17s\t%17.17s\t%17.17s\t%17.17s\n", [self gameStr], [self dealerStr], [self p1Str], [self p2Str], [self handStr]);
     }
-    printf("%17.17s\t%17.17s\t%17.17s\t%17.17s\t%17.17s\n", [self gameStr], [self dealerStr], [self p1Str], [self p2Str], [self handStr]);
+}
+
+- (void)hey {
+    printf("hey.\n");
 }
 
 - (void)deal:(NSNumber *)done {
 // tap deal
-    game = GameInProgress;
-    dealer = Dealing;
     [self showState:NO];
     if (![done boolValue]) {
-        [self performSelector:@selector(deal:) withObject:[NSNumber numberWithBool:YES] afterDelay:0.5];
+        game = GameInProgress;
+        dealer = Dealing;
+        [self deal:[NSNumber numberWithBool:YES]];
         printf("\n");
+    } else {
+        dealer = Dealt;
+        p1 = p2 = WaitingToPlayCard;
+        [self showState:NO];
+        [self playcards:[NSNumber numberWithInteger:1]];
+    }
+}
+
+- (void)playcards:(NSNumber *)p {
+    if ([p integerValue] == 1) {
+        if (p2 == WaitingForOtherPlayer) {
+            p1 = WaitingForOtherPlayer;
+        }
+        [self showState:NO];
+        [self playcards:[NSNumber numberWithInteger:2]];
+    } else if ([p integerValue] == 2) {
+        if (p1 == WaitingForOtherPlayer) {
+            p1 = p2 = BothCardsPlayed;
+        }
+        switch (iteration) {
+            case 0:
+                hand = P1Wins;
+                break;
+                
+            case 1:
+                hand = P2Wins;
+                break;
+                
+            case 2:
+                hand = Draw;
+                break;
+                
+            default:
+                break;
+        }
+        [self showState:NO];
+        printf("%d\n", iteration);
+        if (++iteration < 3) {
+            hand = NoWinnerYet;
+            p1 = p2 = WaitingToPlayCard;
+            [self deal:[NSNumber numberWithBool:NO]];
+        }
+    } else {
+        abort();
     }
 }
 
