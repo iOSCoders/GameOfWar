@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B6537151845A6B5008AD9C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B6537141845A6B5008AD9C4 /* Images.xcassets */; };
 		3BB2E574184435CA00A9F6F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E573184435CA00A9F6F7 /* Foundation.framework */; };
 		3BB2E576184435CA00A9F6F7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E575184435CA00A9F6F7 /* CoreGraphics.framework */; };
 		3BB2E578184435CA00A9F6F7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E577184435CA00A9F6F7 /* UIKit.framework */; };
@@ -17,14 +18,21 @@
 		3BB2E589184435CA00A9F6F7 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BB2E587184435CA00A9F6F7 /* Main_iPhone.storyboard */; };
 		3BB2E58C184435CA00A9F6F7 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BB2E58A184435CA00A9F6F7 /* Main_iPad.storyboard */; };
 		3BB2E58F184435CA00A9F6F7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E58E184435CA00A9F6F7 /* ViewController.m */; };
-		3BB2E592184435CA00A9F6F7 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E591184435CA00A9F6F7 /* MyScene.m */; };
-		3BB2E594184435CA00A9F6F7 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB2E593184435CA00A9F6F7 /* Spaceship.png */; };
-		3BB2E596184435CA00A9F6F7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BB2E595184435CA00A9F6F7 /* Images.xcassets */; };
 		3BB2E59D184435CA00A9F6F7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E59C184435CA00A9F6F7 /* XCTest.framework */; };
 		3BB2E59E184435CA00A9F6F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E573184435CA00A9F6F7 /* Foundation.framework */; };
 		3BB2E59F184435CA00A9F6F7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E577184435CA00A9F6F7 /* UIKit.framework */; };
 		3BB2E5A7184435CA00A9F6F7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BB2E5A5184435CA00A9F6F7 /* InfoPlist.strings */; };
 		3BB2E5A9184435CA00A9F6F7 /* GameOfWarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5A8184435CA00A9F6F7 /* GameOfWarTests.m */; };
+		3BB2E5C6184437F200A9F6F7 /* CardImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BB2E5BB184437F200A9F6F7 /* CardImages.xcassets */; };
+		3BB2E5C8184437F200A9F6F7 /* Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5BD184437F200A9F6F7 /* Button.m */; };
+		3BB2E5C9184437F200A9F6F7 /* CardClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5BE184437F200A9F6F7 /* CardClass.m */; };
+		3BB2E5CA184437F200A9F6F7 /* CardsClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5BF184437F200A9F6F7 /* CardsClass.m */; };
+		3BB2E5CB184437F200A9F6F7 /* CardTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5C0184437F200A9F6F7 /* CardTable.m */; };
+		3BB2E5CC184437F200A9F6F7 /* CardTable+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5C1184437F200A9F6F7 /* CardTable+Layout.m */; };
+		3BB2E5CD184437F200A9F6F7 /* DeckClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5C2184437F200A9F6F7 /* DeckClass.m */; };
+		3BB2E5CE184437F200A9F6F7 /* GamePlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5C3184437F200A9F6F7 /* GamePlay.m */; };
+		3BB2E5CF184437F200A9F6F7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5C4184437F200A9F6F7 /* Player.m */; };
+		3BB2E5D0184437F200A9F6F7 /* SuitClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2E5C5184437F200A9F6F7 /* SuitClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B6537141845A6B5008AD9C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3BB2E570184435CA00A9F6F7 /* GameOfWar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameOfWar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BB2E573184435CA00A9F6F7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3BB2E575184435CA00A9F6F7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,15 +62,30 @@
 		3BB2E58B184435CA00A9F6F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		3BB2E58D184435CA00A9F6F7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		3BB2E58E184435CA00A9F6F7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		3BB2E590184435CA00A9F6F7 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
-		3BB2E591184435CA00A9F6F7 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		3BB2E593184435CA00A9F6F7 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
-		3BB2E595184435CA00A9F6F7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3BB2E59B184435CA00A9F6F7 /* GameOfWarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameOfWarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BB2E59C184435CA00A9F6F7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3BB2E5A4184435CA00A9F6F7 /* GameOfWarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameOfWarTests-Info.plist"; sourceTree = "<group>"; };
 		3BB2E5A6184435CA00A9F6F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB2E5A8184435CA00A9F6F7 /* GameOfWarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameOfWarTests.m; sourceTree = "<group>"; };
+		3BB2E5B2184437F200A9F6F7 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		3BB2E5B3184437F200A9F6F7 /* CardClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardClass.h; sourceTree = "<group>"; };
+		3BB2E5B4184437F200A9F6F7 /* CardsClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardsClass.h; sourceTree = "<group>"; };
+		3BB2E5B5184437F200A9F6F7 /* CardTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardTable.h; sourceTree = "<group>"; };
+		3BB2E5B6184437F200A9F6F7 /* CardTable+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CardTable+Layout.h"; sourceTree = "<group>"; };
+		3BB2E5B7184437F200A9F6F7 /* DeckClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeckClass.h; sourceTree = "<group>"; };
+		3BB2E5B8184437F200A9F6F7 /* GamePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlay.h; sourceTree = "<group>"; };
+		3BB2E5B9184437F200A9F6F7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		3BB2E5BA184437F200A9F6F7 /* SuitClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuitClass.h; sourceTree = "<group>"; };
+		3BB2E5BB184437F200A9F6F7 /* CardImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CardImages.xcassets; sourceTree = "<group>"; };
+		3BB2E5BD184437F200A9F6F7 /* Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Button.m; sourceTree = "<group>"; };
+		3BB2E5BE184437F200A9F6F7 /* CardClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardClass.m; sourceTree = "<group>"; };
+		3BB2E5BF184437F200A9F6F7 /* CardsClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardsClass.m; sourceTree = "<group>"; };
+		3BB2E5C0184437F200A9F6F7 /* CardTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTable.m; sourceTree = "<group>"; };
+		3BB2E5C1184437F200A9F6F7 /* CardTable+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CardTable+Layout.m"; sourceTree = "<group>"; };
+		3BB2E5C2184437F200A9F6F7 /* DeckClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeckClass.m; sourceTree = "<group>"; };
+		3BB2E5C3184437F200A9F6F7 /* GamePlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlay.m; sourceTree = "<group>"; };
+		3BB2E5C4184437F200A9F6F7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		3BB2E5C5184437F200A9F6F7 /* SuitClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuitClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,10 +153,26 @@
 				3BB2E58A184435CA00A9F6F7 /* Main_iPad.storyboard */,
 				3BB2E58D184435CA00A9F6F7 /* ViewController.h */,
 				3BB2E58E184435CA00A9F6F7 /* ViewController.m */,
-				3BB2E590184435CA00A9F6F7 /* MyScene.h */,
-				3BB2E591184435CA00A9F6F7 /* MyScene.m */,
-				3BB2E593184435CA00A9F6F7 /* Spaceship.png */,
-				3BB2E595184435CA00A9F6F7 /* Images.xcassets */,
+				3BB2E5B5184437F200A9F6F7 /* CardTable.h */,
+				3BB2E5C0184437F200A9F6F7 /* CardTable.m */,
+				3BB2E5B8184437F200A9F6F7 /* GamePlay.h */,
+				3BB2E5C3184437F200A9F6F7 /* GamePlay.m */,
+				3BB2E5B3184437F200A9F6F7 /* CardClass.h */,
+				3BB2E5BE184437F200A9F6F7 /* CardClass.m */,
+				3BB2E5B4184437F200A9F6F7 /* CardsClass.h */,
+				3BB2E5BF184437F200A9F6F7 /* CardsClass.m */,
+				3BB2E5B7184437F200A9F6F7 /* DeckClass.h */,
+				3BB2E5C2184437F200A9F6F7 /* DeckClass.m */,
+				3BB2E5B9184437F200A9F6F7 /* Player.h */,
+				3BB2E5C4184437F200A9F6F7 /* Player.m */,
+				3BB2E5BA184437F200A9F6F7 /* SuitClass.h */,
+				3BB2E5C5184437F200A9F6F7 /* SuitClass.m */,
+				3BB2E5B2184437F200A9F6F7 /* Button.h */,
+				3BB2E5BD184437F200A9F6F7 /* Button.m */,
+				3BB2E5C1184437F200A9F6F7 /* CardTable+Layout.m */,
+				3BB2E5B6184437F200A9F6F7 /* CardTable+Layout.h */,
+				3BB2E5BB184437F200A9F6F7 /* CardImages.xcassets */,
+				3B6537141845A6B5008AD9C4 /* Images.xcassets */,
 				3BB2E57C184435CA00A9F6F7 /* Supporting Files */,
 			);
 			path = GameOfWar;
@@ -243,9 +283,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB2E594184435CA00A9F6F7 /* Spaceship.png in Resources */,
-				3BB2E596184435CA00A9F6F7 /* Images.xcassets in Resources */,
 				3BB2E58C184435CA00A9F6F7 /* Main_iPad.storyboard in Resources */,
+				3B6537151845A6B5008AD9C4 /* Images.xcassets in Resources */,
+				3BB2E5C6184437F200A9F6F7 /* CardImages.xcassets in Resources */,
 				3BB2E589184435CA00A9F6F7 /* Main_iPhone.storyboard in Resources */,
 				3BB2E580184435CA00A9F6F7 /* InfoPlist.strings in Resources */,
 			);
@@ -266,10 +306,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB2E592184435CA00A9F6F7 /* MyScene.m in Sources */,
+				3BB2E5CB184437F200A9F6F7 /* CardTable.m in Sources */,
 				3BB2E58F184435CA00A9F6F7 /* ViewController.m in Sources */,
+				3BB2E5C8184437F200A9F6F7 /* Button.m in Sources */,
+				3BB2E5CF184437F200A9F6F7 /* Player.m in Sources */,
 				3BB2E586184435CA00A9F6F7 /* AppDelegate.m in Sources */,
+				3BB2E5CE184437F200A9F6F7 /* GamePlay.m in Sources */,
+				3BB2E5CD184437F200A9F6F7 /* DeckClass.m in Sources */,
+				3BB2E5D0184437F200A9F6F7 /* SuitClass.m in Sources */,
+				3BB2E5C9184437F200A9F6F7 /* CardClass.m in Sources */,
 				3BB2E582184435CA00A9F6F7 /* main.m in Sources */,
+				3BB2E5CC184437F200A9F6F7 /* CardTable+Layout.m in Sources */,
+				3BB2E5CA184437F200A9F6F7 /* CardsClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +538,7 @@
 				3BB2E5AE184435CA00A9F6F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3BB2E5AF184435CA00A9F6F7 /* Build configuration list for PBXNativeTarget "GameOfWarTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +547,7 @@
 				3BB2E5B1184435CA00A9F6F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
