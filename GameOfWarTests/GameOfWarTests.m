@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "FSM.h"
 
 @interface GameOfWarTests : XCTestCase
 
@@ -26,9 +27,17 @@
     [super tearDown];
 }
 
+#ifdef NOTCOMMENTEDOUT
 - (void)testExample
 {
     XCTFail(@"No implementation for \"%s\"", __func__);
+}
+#endif
+
+- (void)testFSM {
+    FSM *fsm = [[FSM alloc] init];
+    [fsm deal:[NSNumber numberWithBool:NO]];
+    XCTAssertTrue(YES, @"...");
 }
 
 @end
