@@ -8,13 +8,18 @@
 
 #import "FSM.h"
 
-static int iteration = 0;
-
 @interface FSM() {
+    NSInteger iteration;
     GameFSM game;
     DealerFSM dealer;
     PlayerFSM p1, p2;
     HandFSM hand;
+    NSInteger p1cards, p2cards;
+    NSInteger p1score, p2score;
+    NSInteger fieldcards;
+    NSInteger decksize;
+    NSInteger handsize;
+    HandFSM testcase;
 }
 
 @end
@@ -47,10 +52,8 @@ static int iteration = 0;
     switch (player) {
         case WaitingToPlayCard:
             return [@"WaitingToPlayCard" UTF8String];
-        case WaitingForOtherPlayer:
-            return [@"WaitingForOtherPlayer" UTF8String];
-        case BothCardsPlayed:
-            return [@"BothCardsPlayed" UTF8String];
+        case CardPlayed:
+            return [@"CardPlayed" UTF8String];
     }
 }
 
@@ -77,81 +80,126 @@ static int iteration = 0;
 
 - (id)init {
     if (self = [super init]) {
-        game = GameNotStarted;
-        dealer = WaitingToDeal;
-        p1 = WaitingToPlayCard;
-        p2 = WaitingToPlayCard;
-        hand = NoWinnerYet;
+        iteration = 0;
+        decksize = 10;
+        handsize = decksize / 2;
+        p1score = p2score = 0;
+        testcase = P1Wins;
+        [self reset];
         [self showState:YES];
     }
     return self;
 }
 
+- (void)reset {
+    game = GameNotStarted;
+    dealer = WaitingToDeal;
+    hand = NoWinnerYet;
+    p1 = p2 = WaitingToPlayCard;
+    p1cards = p2cards = handsize;
+    fieldcards = 0;
+}
+
 - (void)showState:(BOOL)withHeader {
     if (withHeader) {
-        printf("\n             game\t           dealer\t               p1\t               p2\t             hand\n");
-        printf(  "_________________\t_________________\t_________________\t_________________\t_________________\n");
+        printf("\n");
+        printf("p1score\tp2score\tp1cards\tp2cards\t  field\t             game\t           dealer\t               p1\t               p2\t             hand\n");
+        printf("_______\t_______\t_______\t_______\t_______\t_________________\t_________________\t_________________\t_________________\t_________________\n");
     } else {
-        printf("%17.17s\t%17.17s\t%17.17s\t%17.17s\t%17.17s\n", [self gameStr], [self dealerStr], [self p1Str], [self p2Str], [self handStr]);
+        printf("%7d\t%7d\t%7d\t%7d\t%7d\t%17.17s\t%17.17s\t%17.17s\t%17.17s\t%17.17s\n", p1score, p2score, p1cards, p2cards, fieldcards, [self gameStr], [self dealerStr], [self p1Str], [self p2Str], [self handStr]);
     }
 }
 
-- (void)hey {
-    printf("hey.\n");
-}
-
-- (void)deal:(NSNumber *)done {
+- (void)deal {
 // tap deal
     [self showState:NO];
-    if (![done boolValue]) {
-        game = GameInProgress;
-        dealer = Dealing;
-        [self deal:[NSNumber numberWithBool:YES]];
-        printf("\n");
-    } else {
-        dealer = Dealt;
-        p1 = p2 = WaitingToPlayCard;
-        [self showState:NO];
-        [self playcards:[NSNumber numberWithInteger:1]];
-    }
+    game = GameInProgress;
+    dealer = Dealing;
+    [self showState:NO];
+    [self playcard:[NSNumber numberWithInteger:1]];
 }
 
-- (void)playcards:(NSNumber *)p {
+- (void)playcard:(NSNumber *)p {
     if ([p integerValue] == 1) {
-        if (p2 == WaitingForOtherPlayer) {
-            p1 = WaitingForOtherPlayer;
-        }
+        p1 = CardPlayed;
+        fieldcards++;
+        p1cards--;
         [self showState:NO];
-        [self playcards:[NSNumber numberWithInteger:2]];
     } else if ([p integerValue] == 2) {
-        if (p1 == WaitingForOtherPlayer) {
-            p1 = p2 = BothCardsPlayed;
-        }
+        p2 = CardPlayed;
+        fieldcards++;
+        p2cards--;
+        [self showState:NO];
+    }
+    if (p1 == CardPlayed && p2 == CardPlayed) {
         switch (iteration) {
             case 0:
                 hand = P1Wins;
+                p1 = p2 = WaitingToPlayCard;
+                p1cards += fieldcards;
+                fieldcards = 0;
                 break;
                 
             case 1:
                 hand = P2Wins;
+                p1 = p2 = WaitingToPlayCard;
+                p2cards += fieldcards;
+                fieldcards = 0;
                 break;
                 
             case 2:
                 hand = Draw;
+                p1 = p2 = WaitingToPlayCard;
                 break;
                 
             default:
                 break;
         }
         [self showState:NO];
-        printf("%d\n", iteration);
-        if (++iteration < 3) {
-            hand = NoWinnerYet;
-            p1 = p2 = WaitingToPlayCard;
-            [self deal:[NSNumber numberWithBool:NO]];
+    }
+    if (p1cards < decksize && p2cards < decksize) {
+        if (p1 == CardPlayed) {
+            [self playcard:[NSNumber numberWithInteger:2]];
+        } else if (p2 == CardPlayed) {
+            [self playcard:[NSNumber numberWithInteger:1]];
+        } else {
+            if (p1cards > 0) {
+                [self playcard:[NSNumber numberWithInteger:1]];
+            } else if (p2cards > 0) {
+                [self playcard:[NSNumber numberWithInteger:2]];
+            } else {
+                abort();
+            }
         }
     } else {
-        abort();
+        game = GameOver;
+        if (p1cards == decksize) {
+            p1score++;
+        } else if (p2cards == decksize) {
+            p2score++;
+        } else {
+            abort();
+        }
+        [self showState:NO];
+    }
+    if (game == GameOver) {
+        iteration++;
+        switch (iteration) {
+            case 1:
+                testcase = P2Wins;
+                [self deal];
+                break;
+                
+            case 2:
+                testcase = Draw;
+                [self deal];
+                break;
+                
+            default:
+                // all done
+                printf("All done.\n");
+                break;
+        }
     }
 }
 

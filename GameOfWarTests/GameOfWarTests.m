@@ -36,7 +36,7 @@
 
 - (void)testFSM {
     FSM *fsm = [[FSM alloc] init];
-    [fsm deal:[NSNumber numberWithBool:NO]];
+    [fsm deal];
     XCTAssertTrue(YES, @"...");
 }
 

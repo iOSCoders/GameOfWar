@@ -25,8 +25,7 @@ typedef enum {
 // PlayerFSM
 typedef enum {
     WaitingToPlayCard,
-    WaitingForOtherPlayer,
-    BothCardsPlayed
+    CardPlayed
 } PlayerFSM;
 
 // HandFSM
@@ -39,7 +38,6 @@ typedef enum {
 
 @interface FSM : NSObject
 
-- (void)deal:(NSNumber *)done;
-- (void)playcards:(NSNumber *)p;
-- (void)hey;
+- (void)deal;
+- (void)playcard:(NSNumber *)p;
 @end
