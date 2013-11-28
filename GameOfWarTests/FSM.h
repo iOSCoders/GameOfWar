@@ -24,7 +24,7 @@ typedef enum {
 
 // PlayerFSM
 typedef enum {
-    WaitingToPlayCard,
+    CardNotPlayed,
     CardPlayed
 } PlayerFSM;
 
@@ -37,6 +37,14 @@ typedef enum {
 } HandFSM;
 
 @interface FSM : NSObject
+
+@property (nonatomic, unsafe_unretained) GameFSM game;
+@property (nonatomic, unsafe_unretained) DealerFSM dealer;
+@property (nonatomic, unsafe_unretained) PlayerFSM p1, p2;
+@property (nonatomic, unsafe_unretained) HandFSM hand;
+@property (nonatomic, unsafe_unretained) NSInteger p1cards, p2cards;
+@property (nonatomic, unsafe_unretained) NSInteger p1score, p2score;
+@property (nonatomic, unsafe_unretained) NSInteger fieldcards;
 
 - (void)deal;
 - (void)playcard:(NSNumber *)p;
