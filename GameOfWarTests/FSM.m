@@ -13,6 +13,7 @@
     NSInteger decksize;
     NSInteger handsize;
     HandFSM testcase;
+    BOOL resetTested;
 }
 
 @end
@@ -38,6 +39,7 @@
         self.p1score = self.p2score = 0;
         testcase = P1Wins;
         self.game = GameNotStarted;
+        resetTested = NO;
     }
     return self;
 }
@@ -95,14 +97,17 @@
 }
 
 - (void)deal {
-    self.game = GameInProgress;
     self.dealer = Dealing;
+    self.game = GameInProgress;
     self.p1cards = self.p2cards = handsize;
     self.fieldcards = 0;
     self.dealer = Dealt;
+    // this simulates waiting for a touch.
     while (self.game == GameInProgress) {
         [self playcard:[NSNumber numberWithInteger:1]];
         [self playcard:[NSNumber numberWithInteger:2]];
+        // simulate user tapping deal button
+        self.dealer = Dealing;
     }
 }
 
@@ -132,7 +137,12 @@
             default:
                 self.hand = P1Wins;
                 if (self.p1cards == decksize || self.p2cards == decksize) {
-                    self.game = GameOver;
+                    if (!resetTested) {
+                        resetTested = YES;
+                        self.game = GameReset;
+                    } else {
+                        self.game = GameOver;
+                    }
                 }
                 break;
         }

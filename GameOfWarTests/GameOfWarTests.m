@@ -36,7 +36,9 @@
 
 - (void)testFSM {
     FSM *fsm = [[FSM alloc] init];
-    [fsm deal];
+    do {
+        [fsm deal];
+    } while (fsm.game == GameReset);
     XCTAssertTrue(YES, @"...");
 }
 

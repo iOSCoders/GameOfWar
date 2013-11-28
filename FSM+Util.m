@@ -18,6 +18,8 @@
             return [@"GameInProgress" UTF8String];
         case GameOver:
             return [@"GameOver" UTF8String];
+        case GameReset:
+            return [@"GameReset" UTF8String];
     }
 }
 

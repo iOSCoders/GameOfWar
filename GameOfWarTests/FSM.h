@@ -12,7 +12,8 @@
 typedef enum {
     GameNotStarted,
     GameInProgress,
-    GameOver
+    GameOver,
+    GameReset
 } GameFSM;
 
 // DealerFSM
