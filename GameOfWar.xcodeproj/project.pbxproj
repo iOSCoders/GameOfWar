@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B2EF9021847A50E000080E0 /* FSM+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2EF9001847A4CF000080E0 /* FSM+Util.m */; };
+		3B2EF903184833C0000080E0 /* FSM+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2EF9001847A4CF000080E0 /* FSM+Util.m */; };
+		3B2EF904184833C0000080E0 /* FSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6537171845B002008AD9C4 /* FSM.m */; };
 		3B6537151845A6B5008AD9C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B6537141845A6B5008AD9C4 /* Images.xcassets */; };
-		3B6537181845B002008AD9C4 /* FSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6537171845B002008AD9C4 /* FSM.m */; };
 		3BB2E574184435CA00A9F6F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E573184435CA00A9F6F7 /* Foundation.framework */; };
 		3BB2E576184435CA00A9F6F7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E575184435CA00A9F6F7 /* CoreGraphics.framework */; };
 		3BB2E578184435CA00A9F6F7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E577184435CA00A9F6F7 /* UIKit.framework */; };
@@ -51,8 +51,8 @@
 		3B2EF8FF1847A4CF000080E0 /* FSM+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FSM+Util.h"; path = "../FSM+Util.h"; sourceTree = "<group>"; };
 		3B2EF9001847A4CF000080E0 /* FSM+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FSM+Util.m"; path = "../FSM+Util.m"; sourceTree = "<group>"; };
 		3B6537141845A6B5008AD9C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		3B6537161845B002008AD9C4 /* FSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSM.h; sourceTree = "<group>"; };
-		3B6537171845B002008AD9C4 /* FSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSM.m; sourceTree = "<group>"; };
+		3B6537161845B002008AD9C4 /* FSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSM.h; path = GameOfWarTests/FSM.h; sourceTree = SOURCE_ROOT; };
+		3B6537171845B002008AD9C4 /* FSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSM.m; path = GameOfWarTests/FSM.m; sourceTree = SOURCE_ROOT; };
 		3BB2E570184435CA00A9F6F7 /* GameOfWar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameOfWar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BB2E573184435CA00A9F6F7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3BB2E575184435CA00A9F6F7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -177,6 +177,10 @@
 				3BB2E5BD184437F200A9F6F7 /* Button.m */,
 				3BB2E5C1184437F200A9F6F7 /* CardTable+Layout.m */,
 				3BB2E5B6184437F200A9F6F7 /* CardTable+Layout.h */,
+				3B2EF8FF1847A4CF000080E0 /* FSM+Util.h */,
+				3B2EF9001847A4CF000080E0 /* FSM+Util.m */,
+				3B6537161845B002008AD9C4 /* FSM.h */,
+				3B6537171845B002008AD9C4 /* FSM.m */,
 				3BB2E5BB184437F200A9F6F7 /* CardImages.xcassets */,
 				3B6537141845A6B5008AD9C4 /* Images.xcassets */,
 				3BB2E57C184435CA00A9F6F7 /* Supporting Files */,
@@ -198,10 +202,6 @@
 		3BB2E5A2184435CA00A9F6F7 /* GameOfWarTests */ = {
 			isa = PBXGroup;
 			children = (
-				3B2EF8FF1847A4CF000080E0 /* FSM+Util.h */,
-				3B2EF9001847A4CF000080E0 /* FSM+Util.m */,
-				3B6537161845B002008AD9C4 /* FSM.h */,
-				3B6537171845B002008AD9C4 /* FSM.m */,
 				3BB2E5A8184435CA00A9F6F7 /* GameOfWarTests.m */,
 				3BB2E5A3184435CA00A9F6F7 /* Supporting Files */,
 			);
@@ -316,6 +316,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2EF903184833C0000080E0 /* FSM+Util.m in Sources */,
+				3B2EF904184833C0000080E0 /* FSM.m in Sources */,
 				3BB2E5CB184437F200A9F6F7 /* CardTable.m in Sources */,
 				3BB2E58F184435CA00A9F6F7 /* ViewController.m in Sources */,
 				3BB2E5C8184437F200A9F6F7 /* Button.m in Sources */,
@@ -335,8 +337,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B2EF9021847A50E000080E0 /* FSM+Util.m in Sources */,
-				3B6537181845B002008AD9C4 /* FSM.m in Sources */,
 				3BB2E5A9184435CA00A9F6F7 /* GameOfWarTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

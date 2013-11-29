@@ -132,16 +132,18 @@
         self.p1 = CardPlayed;
         self.p1cards--;
         self.fieldcards++;
+        if ([self.delegate respondsToSelector:@selector(p1PlayedCard)]) {
+            [self.delegate p1PlayedCard];
+        }
     } else if ([p integerValue] == 2) {
         self.p2 = CardPlayed;
         self.p2cards--;
         self.fieldcards++;
+        if ([self.delegate respondsToSelector:@selector(p2PlayedCard)]) {
+            [self.delegate p2PlayedCard];
+        }
     } else {
         abort();
-    }
-
-    if ([self.delegate respondsToSelector:@selector(cardWasPlayed)]) {
-        [self.delegate cardWasPlayed];
     }
     
     if (self.p1 == CardPlayed && self.p2 == CardPlayed) {

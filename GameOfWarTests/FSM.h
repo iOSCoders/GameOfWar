@@ -56,7 +56,8 @@ typedef enum {
 
 @optional
 - (void)gameDidEnd;
-- (void)cardWasPlayed;
+- (void)p1PlayedCard;
+- (void)p2PlayedCard;
 - (void)fieldDidClear;
 - (void)pleaseWait;
 @end

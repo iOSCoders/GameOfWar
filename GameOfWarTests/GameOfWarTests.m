@@ -49,7 +49,13 @@
 #endif
 }
 
-- (void)cardWasPlayed {
+- (void)p1PlayedCard {
+#ifdef DEBUG
+    NSLog(@"%s", __func__);
+#endif
+}
+
+- (void)p2PlayedCard {
 #ifdef DEBUG
     NSLog(@"%s", __func__);
 #endif
