@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "FSM.h"
 
-@interface GameOfWarTests : XCTestCase
+@interface GameOfWarTests : XCTestCase <FSMDelegate>
 
 @end
 
@@ -36,10 +36,35 @@
 
 - (void)testFSM {
     FSM *fsm = [[FSM alloc] init];
+    fsm.delegate = self;
     do {
         [fsm deal];
     } while (fsm.game == GameReset);
     XCTAssertTrue(YES, @"...");
+}
+
+- (void)gameDidEnd {
+#ifdef DEBUG
+    NSLog(@"%s", __func__);
+#endif
+}
+
+- (void)cardWasPlayed {
+#ifdef DEBUG
+    NSLog(@"%s", __func__);
+#endif
+}
+
+- (void)fieldDidClear {
+#ifdef DEBUG
+    NSLog(@"%s", __func__);
+#endif
+}
+
+- (void)pleaseWait {
+#ifdef DEBUG
+    NSLog(@"%s", __func__);
+#endif
 }
 
 @end

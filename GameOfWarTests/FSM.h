@@ -39,6 +39,7 @@ typedef enum {
 
 @interface FSM : NSObject
 
+@property (nonatomic, strong) id delegate;
 @property (nonatomic, unsafe_unretained) GameFSM game;
 @property (nonatomic, unsafe_unretained) DealerFSM dealer;
 @property (nonatomic, unsafe_unretained) PlayerFSM p1, p2;
@@ -49,4 +50,13 @@ typedef enum {
 
 - (void)deal;
 - (void)playcard:(NSNumber *)p;
+@end
+
+@protocol FSMDelegate <NSObject>
+
+@optional
+- (void)gameDidEnd;
+- (void)cardWasPlayed;
+- (void)fieldDidClear;
+- (void)pleaseWait;
 @end

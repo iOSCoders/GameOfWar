@@ -48,6 +48,11 @@
     printf("game: %s -> ", self.gameStr);
     _game = game;
     printf("%s\n", self.gameStr);
+    if (_game == GameOver) {
+        if ([self.delegate respondsToSelector:@selector(gameDidEnd)]) {
+            [self.delegate gameDidEnd];
+        }
+    }
 }
 
 - (void)setDealer:(DealerFSM)dealer {
@@ -61,6 +66,9 @@
     printf("\t\tp1: %s -> ", self.p1Str);
     _p1 = p1;
     printf("%s%s\n", self.p1Str, ignored ? " (ignored)" : "");
+    if (ignored && [self.delegate respondsToSelector:@selector(pleaseWait)]) {
+        [self.delegate pleaseWait];
+    }
 }
 
 - (void)setP2:(PlayerFSM)p2 {
@@ -68,6 +76,9 @@
     printf("\t\tp2: %s -> ", self.p2Str);
     _p2 = p2;
     printf("%s%s\n", self.p2Str, ignored ? " (ignored)" : "");
+    if (ignored && [self.delegate respondsToSelector:@selector(pleaseWait)]) {
+        [self.delegate pleaseWait];
+    }
 }
 
 - (void)setHand:(HandFSM)hand {
@@ -87,6 +98,9 @@
         } else {
             abort();
         }
+        if ([self.delegate respondsToSelector:@selector(fieldDidClear)]) {
+            [self.delegate fieldDidClear];
+        }
     }
 }
 
@@ -105,6 +119,7 @@
     // this simulates waiting for a touch.
     while (self.game == GameInProgress) {
         [self playcard:[NSNumber numberWithInteger:1]];
+        [self playcard:[NSNumber numberWithInteger:1]];
         [self playcard:[NSNumber numberWithInteger:2]];
         // simulate user tapping deal button
         self.dealer = Dealing;
@@ -112,6 +127,7 @@
 }
 
 - (void)playcard:(NSNumber *)p {
+    if (_game == GameOver) return;
     if ([p integerValue] == 1) {
         self.p1 = CardPlayed;
         self.p1cards--;
@@ -123,6 +139,11 @@
     } else {
         abort();
     }
+
+    if ([self.delegate respondsToSelector:@selector(cardWasPlayed)]) {
+        [self.delegate cardWasPlayed];
+    }
+    
     if (self.p1 == CardPlayed && self.p2 == CardPlayed) {
         switch (iteration++) {
             case 0:
