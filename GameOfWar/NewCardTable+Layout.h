@@ -1,12 +1,12 @@
 //
-//  CardTable+Layout.h
+//  NewCardTable+Layout.h
 //  CardsApp
 //
 //  Created by Joe Bologna on 11/9/13.
 //  Copyright (c) 2013 Joe Bologna. All rights reserved.
 //
 
-#import "CardTable.h"
+#import "NewCardTable.h"
 
 #define P1 1
 #define P2 2
@@ -23,7 +23,7 @@ typedef struct {
     CGPoint ml;
 } FrameWork;
 
-@interface CardTable(Layout)
+@interface NewCardTable(Layout)
 
 - (void)initMetricsWithSize:(CGSize)cs;
 

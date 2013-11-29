@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3B2EF903184833C0000080E0 /* FSM+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2EF9001847A4CF000080E0 /* FSM+Util.m */; };
 		3B2EF904184833C0000080E0 /* FSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6537171845B002008AD9C4 /* FSM.m */; };
+		3B2EF90718483A63000080E0 /* NewCardTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2EF90618483A63000080E0 /* NewCardTable.m */; };
+		3B2EF90A18483CE4000080E0 /* NewCardTable+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2EF90918483CE4000080E0 /* NewCardTable+Layout.m */; };
 		3B6537151845A6B5008AD9C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B6537141845A6B5008AD9C4 /* Images.xcassets */; };
 		3BB2E574184435CA00A9F6F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E573184435CA00A9F6F7 /* Foundation.framework */; };
 		3BB2E576184435CA00A9F6F7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB2E575184435CA00A9F6F7 /* CoreGraphics.framework */; };
@@ -50,6 +52,10 @@
 /* Begin PBXFileReference section */
 		3B2EF8FF1847A4CF000080E0 /* FSM+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FSM+Util.h"; path = "../FSM+Util.h"; sourceTree = "<group>"; };
 		3B2EF9001847A4CF000080E0 /* FSM+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FSM+Util.m"; path = "../FSM+Util.m"; sourceTree = "<group>"; };
+		3B2EF90518483A63000080E0 /* NewCardTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewCardTable.h; sourceTree = "<group>"; };
+		3B2EF90618483A63000080E0 /* NewCardTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewCardTable.m; sourceTree = "<group>"; };
+		3B2EF90818483CE4000080E0 /* NewCardTable+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NewCardTable+Layout.h"; sourceTree = "<group>"; };
+		3B2EF90918483CE4000080E0 /* NewCardTable+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NewCardTable+Layout.m"; sourceTree = "<group>"; };
 		3B6537141845A6B5008AD9C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3B6537161845B002008AD9C4 /* FSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSM.h; path = GameOfWarTests/FSM.h; sourceTree = SOURCE_ROOT; };
 		3B6537171845B002008AD9C4 /* FSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSM.m; path = GameOfWarTests/FSM.m; sourceTree = SOURCE_ROOT; };
@@ -161,6 +167,12 @@
 				3BB2E58E184435CA00A9F6F7 /* ViewController.m */,
 				3BB2E5B5184437F200A9F6F7 /* CardTable.h */,
 				3BB2E5C0184437F200A9F6F7 /* CardTable.m */,
+				3B2EF90518483A63000080E0 /* NewCardTable.h */,
+				3B2EF90618483A63000080E0 /* NewCardTable.m */,
+				3B2EF90818483CE4000080E0 /* NewCardTable+Layout.h */,
+				3B2EF90918483CE4000080E0 /* NewCardTable+Layout.m */,
+				3BB2E5B6184437F200A9F6F7 /* CardTable+Layout.h */,
+				3BB2E5C1184437F200A9F6F7 /* CardTable+Layout.m */,
 				3BB2E5B8184437F200A9F6F7 /* GamePlay.h */,
 				3BB2E5C3184437F200A9F6F7 /* GamePlay.m */,
 				3BB2E5B3184437F200A9F6F7 /* CardClass.h */,
@@ -175,8 +187,6 @@
 				3BB2E5C5184437F200A9F6F7 /* SuitClass.m */,
 				3BB2E5B2184437F200A9F6F7 /* Button.h */,
 				3BB2E5BD184437F200A9F6F7 /* Button.m */,
-				3BB2E5C1184437F200A9F6F7 /* CardTable+Layout.m */,
-				3BB2E5B6184437F200A9F6F7 /* CardTable+Layout.h */,
 				3B2EF8FF1847A4CF000080E0 /* FSM+Util.h */,
 				3B2EF9001847A4CF000080E0 /* FSM+Util.m */,
 				3B6537161845B002008AD9C4 /* FSM.h */,
@@ -321,7 +331,9 @@
 				3BB2E5CB184437F200A9F6F7 /* CardTable.m in Sources */,
 				3BB2E58F184435CA00A9F6F7 /* ViewController.m in Sources */,
 				3BB2E5C8184437F200A9F6F7 /* Button.m in Sources */,
+				3B2EF90A18483CE4000080E0 /* NewCardTable+Layout.m in Sources */,
 				3BB2E5CF184437F200A9F6F7 /* Player.m in Sources */,
+				3B2EF90718483A63000080E0 /* NewCardTable.m in Sources */,
 				3BB2E586184435CA00A9F6F7 /* AppDelegate.m in Sources */,
 				3BB2E5CE184437F200A9F6F7 /* GamePlay.m in Sources */,
 				3BB2E5CD184437F200A9F6F7 /* DeckClass.m in Sources */,

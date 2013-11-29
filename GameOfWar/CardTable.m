@@ -15,8 +15,6 @@
 #define FASTSPEED (0.02)
 #define DELAYSPEED (0.75)
 #define CARDSCALE (0.3)
-#define P1 0
-#define P2 1
 
 #define kDEAL @"Deal"
 #define kPLAYAGAIN @"Play Again"

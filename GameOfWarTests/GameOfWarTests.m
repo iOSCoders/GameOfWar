@@ -38,7 +38,7 @@
     FSM *fsm = [[FSM alloc] init];
     fsm.delegate = self;
     do {
-        [fsm deal];
+        [fsm dealTest];
     } while (fsm.game == GameReset);
     XCTAssertTrue(YES, @"...");
 }

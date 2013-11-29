@@ -116,6 +116,14 @@
     self.p1cards = self.p2cards = handsize;
     self.fieldcards = 0;
     self.dealer = Dealt;
+}
+
+- (void)dealTest {
+    self.dealer = Dealing;
+    self.game = GameInProgress;
+    self.p1cards = self.p2cards = handsize;
+    self.fieldcards = 0;
+    self.dealer = Dealt;
     // this simulates waiting for a touch.
     while (self.game == GameInProgress) {
         [self playcard:[NSNumber numberWithInteger:1]];

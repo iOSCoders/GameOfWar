@@ -49,6 +49,7 @@ typedef enum {
 @property (nonatomic, unsafe_unretained) NSInteger fieldcards;
 
 - (void)deal;
+- (void)dealTest;
 - (void)playcard:(NSNumber *)p;
 @end
 

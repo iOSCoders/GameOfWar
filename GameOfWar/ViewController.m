@@ -7,9 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "CardTable.h"
+#import "NewCardTable.h"
 
 @interface ViewController() {
     CardTable *scene;
+    NewCardTable *newscene;
 }
 
 @end
@@ -25,12 +28,22 @@
     skView.showsFPS = NO;
     skView.showsNodeCount = NO;
     
+//#define OLD
+#ifdef OLD
     // Create and configure the scene.
     scene = [CardTable sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.
     [skView presentScene:scene];
+#else
+    // Create and configure the scene.
+    newscene = [NewCardTable sceneWithSize:skView.bounds.size];
+    newscene.scaleMode = SKSceneScaleModeAspectFill;
+    
+    // Present the scene.
+    [skView presentScene:newscene];
+#endif
 }
 
 - (BOOL)shouldAutorotate

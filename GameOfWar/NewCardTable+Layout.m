@@ -1,12 +1,12 @@
 //
-//  CardTableLayout.m
+//  NewCardTableLayout.m
 //  CardsApp
 //
 //  Created by Joe Bologna on 11/9/13.
 //  Copyright (c) 2013 Joe Bologna. All rights reserved.
 //
 
-#import "CardTable+Layout.h"
+#import "NewCardTable+Layout.h"
 
 #define STATUSLINEOFFSET 10
 
@@ -15,7 +15,7 @@ static CGSize inset;
 
 static FrameWork framework;
 
-@implementation CardTable(Layout)
+@implementation NewCardTable(Layout)
 
 - (void)initMetricsWithSize:(CGSize)cs {
     self.portrait = YES;
@@ -86,28 +86,40 @@ static FrameWork framework;
     if (player == P1) {
         return CGPointMake(p.x, p.y - self.cardSize.height);
     }
-    return CGPointMake(p.x, p.y + self.cardSize.height);
+    if (player == P2) {
+        return CGPointMake(p.x, p.y + self.cardSize.height);
+    }
+    abort();
 }
 
 - (CGPoint)handbuttonloc:(NSInteger)player {
     if (player == P1) {
         return self.mt;
     }
-    return self.mb;
+    if (player == P2) {
+        return self.mb;
+    }
+    abort();
 }
 
 - (CGPoint)scoreloc:(NSInteger)player {
     if (player == P1) {
         return CGPointMake(framework.mt.x, framework.mt.y + self.fontsize);
     }
-    return CGPointMake(framework.mb.x, framework.mb.y - self.fontsize/2);
+    if (player == P2) {
+        return CGPointMake(framework.mb.x, framework.mb.y - self.fontsize/2);
+    }
+    abort();
 }
 
 - (CGPoint)playedcardloc:(NSInteger)player {
     if (player == P1) {
         return CGPointMake([self middle].x - self.cardSize.width/2 * 1.1, [self middle].y);
     }
-    return CGPointMake([self middle].x + self.cardSize.width/2 * 1.1, [self middle].y);
+    if (player == P2) {
+        return CGPointMake([self middle].x + self.cardSize.width/2 * 1.1, [self middle].y);
+    }
+    abort();
 }
 
 - (CGPoint)msgloc {
@@ -123,13 +135,19 @@ static FrameWork framework;
     if (player == P1) {
         return [self ul];
     }
-    return [self ll];
+    if (player == P2) {
+        return [self ll];
+    }
+    abort();
 }
 
 - (CGPoint)winsloc:(NSInteger)player {
     if (player == P1) {
         return [self ur];
     }
-    return [self lr];
+    if (player == P2) {
+        return [self lr];
+    }
+    abort();
 }
 @end
