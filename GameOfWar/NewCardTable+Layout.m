@@ -74,7 +74,8 @@ static FrameWork framework;
 
 - (CGPoint)deckloc {
     CGPoint p = [self deckbuttonloc];
-    return CGPointMake(p.x + @"Deck".length * self.fontsize + self.fontsize, p.y);
+    return CGPointMake(p.x + self.cardSize.width/2, p.y);
+//    return CGPointMake(p.x + @"Deck".length * self.fontsize + self.fontsize, p.y);
 }
 
 - (CGPoint)deckbuttonloc {

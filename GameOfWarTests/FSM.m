@@ -34,7 +34,7 @@
     if (self = [super init]) {
         [self showState:YES];
         iteration = 0;
-        decksize = 10;
+        decksize = 52;
         handsize = decksize / 2;
         self.p1score = self.p2score = 0;
         testcase = P1Wins;
@@ -113,9 +113,10 @@
 - (void)deal {
     self.dealer = Dealing;
     self.game = GameInProgress;
-    self.p1cards = self.p2cards = handsize;
-    self.fieldcards = 0;
     self.dealer = Dealt;
+    if ([self.delegate respondsToSelector:@selector(dealingDidEnd)]) {
+        [self.delegate dealingDidEnd];
+    }
 }
 
 - (void)dealTest {
@@ -126,16 +127,17 @@
     self.dealer = Dealt;
     // this simulates waiting for a touch.
     while (self.game == GameInProgress) {
-        [self playcard:[NSNumber numberWithInteger:1]];
-        [self playcard:[NSNumber numberWithInteger:1]];
-        [self playcard:[NSNumber numberWithInteger:2]];
+        [self playcardTest:[NSNumber numberWithInteger:1]];
+        [self playcardTest:[NSNumber numberWithInteger:1]];
+        [self playcardTest:[NSNumber numberWithInteger:2]];
         // simulate user tapping deal button
         self.dealer = Dealing;
     }
 }
 
-- (void)playcard:(NSNumber *)p {
-    if (_game == GameOver) return;
+// for unit testing
+- (void)playcardTest:(NSNumber *)p {
+    if (_game == GameOver || _dealer != Dealt) return;
     if ([p integerValue] == 1) {
         self.p1 = CardPlayed;
         self.p1cards--;
