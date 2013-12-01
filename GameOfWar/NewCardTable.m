@@ -122,7 +122,13 @@ typedef enum {
     }
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)didEvaluateActions {
+#ifdef DEBUG
+    if ([self hasActions]) NSLog(@"%s, hasActions to complete.", __func__);
+#endif
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 #ifdef DEBUG
     NSLog(@"%s", __func__);
 #endif
