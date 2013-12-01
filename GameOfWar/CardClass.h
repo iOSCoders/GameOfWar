@@ -16,11 +16,11 @@ typedef enum {FACE_UP,FACE_DOWN} FaceUpDown;
 
 @interface CardClass : NSObject
 
-@property (unsafe_unretained, nonatomic) Suit suit;
-@property (unsafe_unretained, nonatomic) FaceUpDown faceUpDown;
+@property (unsafe_unretained, atomic) Suit suit;
+@property (unsafe_unretained, atomic) FaceUpDown faceUpDown;
 @property (strong, nonatomic) NSString  *suitString, *imageName, *cardName;
-@property (unsafe_unretained, nonatomic) NSInteger value;
-@property (unsafe_unretained, nonatomic) NSInteger ordinalValue;
+@property (unsafe_unretained, atomic) NSInteger value;
+@property (unsafe_unretained, atomic) NSInteger ordinalValue;
 
 + (CardClass *)cardWithSuit:(Suit)s value:(NSInteger)v faceUpDown:(FaceUpDown)faceUpDown;
 

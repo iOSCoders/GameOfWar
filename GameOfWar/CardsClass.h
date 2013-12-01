@@ -11,7 +11,7 @@
 
 @interface CardsClass : NSObject
 
-@property (strong, nonatomic) NSMutableArray *cards;
+@property (strong, atomic) NSMutableArray *cards;
 
 + (CardsClass *)theCards;
 - (void)initCards;

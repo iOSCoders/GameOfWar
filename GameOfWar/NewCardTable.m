@@ -49,11 +49,11 @@ typedef enum {
 @interface NewCardTable() {
     SKTexture *backTexture;
     Button *p1Button, *p2Button, *reset, *msg, *p1score, *p2score, *p1shuffle, *p2shuffle, *p1wins, *p2wins, *dealButton;
-    NSInteger p1gameswon, p2gameswon;
+//    NSInteger p1gameswon, p2gameswon;
 }
 
 @property (unsafe_unretained, nonatomic) GameState gameState;
-@property (strong, nonatomic) Player *dealer, *p1field, *p2field, *p1, *p2;
+@property (strong, atomic) Player *dealer, *p1field, *p2field, *p1, *p2;
 
 @end
 
@@ -64,7 +64,6 @@ typedef enum {
     NSLog(@"%s", __func__);
 #endif
     if (self = [super initWithSize:size]) {
-        p1gameswon = p2gameswon = 0;
         self.gameState = NotStarted;
         self.p1 = [Player initPlayer];
         self.p2 = [Player initPlayer];
@@ -395,9 +394,9 @@ typedef enum {
         [self updateScore];
         if (destPlayer.cards.count == DECKSIZE) {
             if (player == P1) {
-                p1gameswon++;
+                self.p1.score++;
             } else {
-                p2gameswon++;
+                self.p2.score++;
             }
             [self clearField];
         } else {
@@ -434,8 +433,8 @@ typedef enum {
 - (void)updateScore {
     p1score.text = [NSString stringWithFormat:@"(%d)", self.p1.cards.count];
     p2score.text = [NSString stringWithFormat:@"(%d)", self.p2.cards.count];
-    p1wins.text = p1gameswon == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", p1gameswon];
-    p2wins.text = p2gameswon == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", p2gameswon];
+    p1wins.text = self.p1.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", self.p1.score];
+    p2wins.text = self.p2.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", self.p2.score];
     [self dumpCards];
 }
 

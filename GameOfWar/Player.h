@@ -10,7 +10,7 @@
 
 @interface Player : CardsClass
 
-@property (unsafe_unretained, nonatomic) NSInteger score;
+@property (unsafe_unretained, atomic) NSInteger score;
 
 + (Player *)initPlayer;
 - (void)display;
