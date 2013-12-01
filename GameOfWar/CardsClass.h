@@ -16,5 +16,6 @@
 + (CardsClass *)theCards;
 - (void)initCards;
 - (void)shuffle;
+- (BOOL)isTopCard:(NSString *)name;
 
 @end

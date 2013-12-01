@@ -52,4 +52,11 @@
     self.cards = a;
 }
 
+- (BOOL)isTopCard:(NSString *)name {
+    if (self.cards == nil) return NO;
+    if (self.cards.count == 0) return NO;
+    CardClass *c = [self.cards lastObject];
+    return [c.cardKey isEqualToString:name];
+}
+
 @end

@@ -7,9 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "FSM.h"
 
-@interface GameOfWarTests : XCTestCase <FSMDelegate>
+@interface GameOfWarTests : XCTestCase
 
 @end
 
@@ -27,50 +26,9 @@
     [super tearDown];
 }
 
-#ifdef NOTCOMMENTEDOUT
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __func__);
-}
-#endif
-
-- (void)testFSM {
-    FSM *fsm = [[FSM alloc] init];
-    fsm.delegate = self;
-    do {
-        [fsm dealTest];
-    } while (fsm.game == GameReset);
-    XCTAssertTrue(YES, @"...");
-}
-
-- (void)gameDidEnd {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-}
-
-- (void)p1PlayedCard {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-}
-
-- (void)p2PlayedCard {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-}
-
-- (void)fieldDidClear {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-}
-
-- (void)pleaseWait {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
+    //XCTFail(@"No implementation for \"%s\"", __func__);
 }
 
 @end

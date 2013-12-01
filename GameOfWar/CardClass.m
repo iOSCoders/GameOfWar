@@ -8,6 +8,11 @@
 
 #import "CardClass.h"
 
+@interface CardClass() {
+}
+
+@end
+
 @implementation CardClass
 
 @dynamic cardName;
@@ -44,4 +49,21 @@
 - (NSString *)suitString {
     return [[SuitClass suitWithSuit:_suit] toString];
 }
+
+-(NSString *)cardKey {
+    return [self makeKey:self.cardName];
+}
+
+- (NSString *)makeKey:(NSString *)name {
+    return [kCARDPREFIX stringByAppendingString:name];
+}
+
+- (BOOL)itsACard:(NSString *)nodeName {
+    return [nodeName rangeOfString:kCARDPREFIX].location == 0;
+}
+
+- (BOOL)isCard:(NSString *)name {
+    return [self.cardName isEqualToString:name];
+}
+
 @end

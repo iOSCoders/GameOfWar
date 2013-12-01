@@ -12,6 +12,7 @@ typedef enum {FACE_UP,FACE_DOWN} FaceUpDown;
 #import "SuitClass.h"
 
 #define NCARDS 13
+#define kCARDPREFIX @"CARD:"
 
 @interface CardClass : NSObject
 
@@ -22,5 +23,10 @@ typedef enum {FACE_UP,FACE_DOWN} FaceUpDown;
 @property (unsafe_unretained, nonatomic) NSInteger ordinalValue;
 
 + (CardClass *)cardWithSuit:(Suit)s value:(NSInteger)v faceUpDown:(FaceUpDown)faceUpDown;
+
+- (NSString *)cardKey;
+- (NSString *)makeKey:(NSString *)name;
+- (BOOL)itsACard:(NSString *)nodeName;
+- (BOOL)isCard:(NSString *)name;
 
 @end
