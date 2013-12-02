@@ -418,10 +418,10 @@ typedef enum {
 }
 
 - (void)updateScore {
-    p1score.text = [NSString stringWithFormat:@"(%d)", self.p1.cards.count];
-    p2score.text = [NSString stringWithFormat:@"(%d)", self.p2.cards.count];
-    p1wins.text = self.p1.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", self.p1.score];
-    p2wins.text = self.p2.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", self.p2.score];
+    p1score.text = [NSString stringWithFormat:@"(%lu)", (unsigned long)self.p1.cards.count];
+    p2score.text = [NSString stringWithFormat:@"(%lu)", (unsigned long)self.p2.cards.count];
+    p1wins.text = self.p1.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%ld Games Won", (long)self.p1.score];
+    p2wins.text = self.p2.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%ld Games Won", (long)self.p2.score];
     //[self dumpCards];
 }
 
