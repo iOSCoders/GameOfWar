@@ -49,6 +49,7 @@ typedef enum {
 @interface NewCardTable() {
     SKTexture *backTexture;
     Button *p1Button, *p2Button, *reset, *msg, *p1score, *p2score, *p1shuffle, *p2shuffle, *p1wins, *p2wins, *dealButton;
+    BOOL ready;
 //    NSInteger p1gameswon, p2gameswon;
 }
 
@@ -64,6 +65,7 @@ typedef enum {
     NSLog(@"%s", __func__);
 #endif
     if (self = [super initWithSize:size]) {
+        ready = YES;
         self.gameState = NotStarted;
         self.p1 = [Player initPlayer];
         self.p2 = [Player initPlayer];
@@ -132,25 +134,51 @@ typedef enum {
 #ifdef DEBUG
     NSLog(@"%s", __func__);
 #endif
+    if (!ready) { printf("not ready\n"); return; }
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     SKNode *node = [self nodeAtPoint:location];
     
     NSLog(@"node: %@", node.name);
     if (self.gameState == NotStarted && [self.dealer isTopCard:node.name]) {
-        [self dealCards];
+        ready = NO;
+        [self dealCards:0];
     } else if ((self.gameState == Dealt || self.gameState == P2CardPlayed) && [self.p1 isTopCard:node.name]) {
         [self playCard:self.p1 num:P1 at:[self playedcardloc:P1]];
     } else if ((self.gameState == Dealt || self.gameState == P1CardPlayed) && [self.p2 isTopCard:node.name]) {
         [self playCard:self.p2 num:P2 at:[self playedcardloc:P2]];
     } else if ([node.name isEqualToString:kPLAYAGAIN]) {
-        [self clearField];
+        ready = NO;
+        [self clearField:0 player:self.p1field];
     } else if ([node.name isEqualToString:kP1SHUFFLE]) {
-        [self autoPlay];
+//        [self autoPlay];
+        ready = NO;
+        [self moveInACircle];
     } else {
         //abort();
         [self dumpCards];
         printf("ignored\n");
+    }
+}
+
+- (void)moveInACircle {
+    if (self.dealer.cards.count > 0) {
+        CardClass *card = [self.dealer.cards lastObject];
+        SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
+        [sprite runAction:[SKAction moveTo:[self handloc:P1] duration:DEALSPEED] completion:^(void) {
+            printf("movement to P1 complete\n");
+            [sprite runAction:[SKAction moveTo:[self handloc:P2] duration:DEALSPEED] completion:^(void) {
+                printf("movement to P2 complete\n");
+                [sprite runAction:[SKAction moveTo:[self deckloc] duration:DEALSPEED] completion:^(void) {
+                    printf("movement to dealer complete\n");
+                    [self.dealer.cards removeLastObject];
+                    [sprite removeFromParent];
+                    ready = YES;
+                }];
+            }];
+        }];
+    } else {
+        printf("No cards left.\n");
     }
 }
 
@@ -219,7 +247,28 @@ typedef enum {
     sprite.texture = card.faceUpDown == FACE_DOWN ? backTexture : [SKTexture textureWithImage:[UIImage imageNamed:card.imageName]];
 }
 
-- (void)dealCards {
+- (void)dealCards:(NSInteger)num {
+#ifdef DEBUG
+    NSLog(@"%s", __func__);
+#endif
+    CardClass *card = self.dealer.cards[num];
+    [self flipCard:card toFace:FACE_DOWN];
+    SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
+    [sprite runAction:[SKAction moveTo:[self handloc:(num % 2) == 0 ? P1 : P2] duration:DEALSPEED] completion:^(void) {
+        [(num % 2) == 0 ? self.p1.cards : self.p2.cards addObject:self.dealer.cards[num]];
+        sprite.zPosition = (num % 2) == 0 ? self.p1.cards.count : self.p2.cards.count;
+        if (num < self.dealer.cards.count - 1) {
+            [self dealCards:num + 1];
+        } else {
+            [self.dealer.cards removeAllObjects];
+            printf("cards dealt\n");
+            [self dumpCards];
+            ready = YES;
+        }
+    }];
+}
+
+- (void)dealCardsOLD {
 #ifdef DEBUG
         NSLog(@"%s", __func__);
 #endif
@@ -303,8 +352,41 @@ typedef enum {
     }];
 }
 
+// move card from p1field, p2field, p1, p2 in order.
+- (void)clearField:(NSInteger)num player:(Player *)p {
+#ifdef DEBUG
+    NSLog(@"%s, %@", __func__, [self gs:self.gameState]);
+#endif
+    if (p.cards.count == 0 || num == p.cards.count) {
+        if ([p isEqual:self.p1field]) {
+            [self clearField:0 player:self.p2field];
+        } else if ([p isEqual:self.p2field]) {
+            [self clearField:0 player:self.p1];
+        } else if ([p isEqual:self.p1]) {
+            [self clearField:0 player:self.p2];
+        } else {
+            [self.p1field.cards removeAllObjects];
+            [self.p2field.cards removeAllObjects];
+            [self.p1.cards removeAllObjects];
+            [self.p2.cards removeAllObjects];
+            printf("cards cleared\n");
+            [self dumpCards];
+            ready = YES;
+        }
+    } else {
+        CardClass *card = p.cards[num];
+        [self flipCard:card toFace:FACE_DOWN];
+        SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
+        [sprite runAction:[SKAction moveTo:[self deckloc] duration:DEALSPEED] completion:^(void) {
+            [self.dealer.cards addObject:p.cards[num]];
+            sprite.zPosition = self.dealer.cards.count;
+            [self clearField:num + 1 player:p];
+        }];
+    }
+}
+
 // send field cards and player cards to dealer then shuffle them
-- (void)clearField {
+- (void)clearFieldOLD {
 #ifdef DEBUG
     NSLog(@"%s, %@", __func__, [self gs:self.gameState]);
 #endif
@@ -404,7 +486,7 @@ typedef enum {
             } else {
                 self.p2.score++;
             }
-            [self clearField];
+            [self clearFieldOLD];
         } else {
             self.gameState = Dealt;
         }
