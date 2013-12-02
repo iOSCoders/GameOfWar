@@ -222,6 +222,8 @@ typedef enum {
 //    NSLog(@"%s", __func__);
 #endif
     card.faceUpDown = faceUpDown;
+    SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
+    sprite.texture = (faceUpDown == FACE_DOWN) ? backTexture : [SKTexture textureWithImageNamed:card.cardName];
 }
 
 - (void)dealCards:(NSInteger)num {
