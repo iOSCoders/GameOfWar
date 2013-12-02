@@ -77,6 +77,7 @@ typedef enum {
         self.p1field = [Player initPlayer];
         self.p2field = [Player initPlayer];
         UIImage *back = [UIImage imageNamed:@"back"];
+        backTexture = [SKTexture textureWithImage:back];
         self.fontsize = [UIFont systemFontSize] * 1.25;
         CGSize cs = CGSizeMake(back.size.width * CARDSCALE, back.size.height * CARDSCALE);
         [self initMetricsWithSize:cs];
@@ -111,19 +112,6 @@ typedef enum {
     [self displayCards:self.dealer at:[self deckloc] withScale:CARDSCALE];
 }
 
-- (void)autoPlay {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-    if (self.p1.cards.count > 1 || self.p2.cards.count > 1) {
-        if (self.gameState != ClearingWinningCards) {
-            [self playCard:self.p1 num:P1 at:[self playedcardloc:P1]];
-            [self playCard:self.p2 num:P2 at:[self playedcardloc:P2]];
-        }
-        [self performSelector:@selector(autoPlay) withObject:nil afterDelay:DEALSPEED * 3];
-    }
-}
-
 - (void)didEvaluateActions {
 #ifdef DEBUG
     if ([self hasActions]) NSLog(@"%s, hasActions to complete.", __func__);
@@ -144,14 +132,15 @@ typedef enum {
         ready = NO;
         [self dealCards:0];
     } else if ((self.gameState == Dealt || self.gameState == P2CardPlayed) && [self.p1 isTopCard:node.name]) {
-        [self playCard:self.p1 num:P1 at:[self playedcardloc:P1]];
+        ready = NO;
+        [self playCard:self.p1];
     } else if ((self.gameState == Dealt || self.gameState == P1CardPlayed) && [self.p2 isTopCard:node.name]) {
-        [self playCard:self.p2 num:P2 at:[self playedcardloc:P2]];
+        ready = NO;
+        [self playCard:self.p2];
     } else if ([node.name isEqualToString:kPLAYAGAIN]) {
         ready = NO;
         [self clearField:0 player:self.p1field];
     } else if ([node.name isEqualToString:kP1SHUFFLE]) {
-//        [self autoPlay];
         ready = NO;
         [self moveInACircle];
     } else {
@@ -232,19 +221,7 @@ typedef enum {
 #ifdef DEBUG
 //    NSLog(@"%s", __func__);
 #endif
-    if (card.faceUpDown == faceUpDown) {
-        return;
-    }
-    [self flipCard:card];
-}
-
-- (void)flipCard:(CardClass *)card {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-    card.faceUpDown = card.faceUpDown == FACE_DOWN ? FACE_UP : FACE_DOWN;
-    SKSpriteNode *sprite = (SKSpriteNode *)[self.scene childNodeWithName:[card cardKey]];
-    sprite.texture = card.faceUpDown == FACE_DOWN ? backTexture : [SKTexture textureWithImage:[UIImage imageNamed:card.imageName]];
+    card.faceUpDown = faceUpDown;
 }
 
 - (void)dealCards:(NSInteger)num {
@@ -261,95 +238,83 @@ typedef enum {
             [self dealCards:num + 1];
         } else {
             [self.dealer.cards removeAllObjects];
-            printf("cards dealt\n");
-            [self dumpCards];
+            self.gameState = Dealt;
+            [self updateScore];
             ready = YES;
         }
     }];
 }
 
-- (void)dealCardsOLD {
-#ifdef DEBUG
-        NSLog(@"%s", __func__);
-#endif
-    [self dumpCards];
-    assert(self.gameState == NotStarted);
-    self.gameState = Dealing;
-    __block BOOL done = NO;
-    int p = P1;
-    int i = 0;
-    NSMutableIndexSet *is1 = [NSMutableIndexSet indexSet];
-    NSMutableIndexSet *is2 = [NSMutableIndexSet indexSet];
-    SKSpriteNode *sprite = nil;
-    [self.dealer shuffle];
-    [self dumpCards];
-    for (CardClass *card in self.dealer.cards) {
-        [self flipCard:card toFace:FACE_DOWN];
-        CGPoint loc = [self handloc:p];
-        NSLog(@"%@, %.f, %.f", card.cardName, loc.x, loc.y);
-        if (p == P1) {
-            [is1 addIndex:i++];
-            p = P2;
-        } else {
-            p = P1;
-            [is2 addIndex:i++];
-        }
-        sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-        [sprite runAction:[SKAction sequence:[NSArray arrayWithObjects:[SKAction moveTo:loc duration:DEALSPEED], [SKAction runBlock:^(void){
-            done = ![self hasActions];
-        }], nil]]];
-    }
-    [self runAction:[SKAction waitForDuration:DEALSPEED*2] completion:^(void){
-        if (!done) printf("%s, warning, previous action not complete.\n", __func__);
-        [self.p1.cards addObjectsFromArray:[self.dealer.cards objectsAtIndexes:is1]];
-        [self.p2.cards addObjectsFromArray:[self.dealer.cards objectsAtIndexes:is2]];
-        for (Player *p in [NSArray arrayWithObjects:self.p1, self.p2, nil]) {
-            int j = 0;
-            for (CardClass *card in p.cards) {
-                SKSpriteNode *sprite2 = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-                sprite2.zPosition = j + 1;
-                j++;
-            }
-        }
-        [self.dealer.cards removeAllObjects];
-        [self updateScore];
-        self.gameState = Dealt;
-        [self dumpCards];
-    }];
-}
-
-- (void)playCard:(Player *)p num:(NSInteger)num at:(CGPoint)loc {
+- (void)playCard:(Player *)p {
 #ifdef DEBUG
     NSLog(@"%s", __func__);
 #endif
-    assert(self.gameState == P1CardPlayed || self.gameState || P2CardPlayed || self.gameState == Dealt);
-    __block BOOL done = NO;
-    CardClass *card = [p.cards lastObject];
+    CardClass *card = p.cards.lastObject;
+    [self flipCard:card toFace:FACE_UP];
     SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-    [sprite runAction:[SKAction sequence:[NSArray arrayWithObjects:[SKAction moveTo:loc duration:DEALSPEED], [SKAction runBlock:^(void){
-        [self flipCard:p.cards.lastObject toFace:FACE_UP];
-        done = ![self hasActions];
-    }], nil]]];
-    [self runAction:[SKAction waitForDuration:DEALSPEED*2] completion:^(void){
-        if (!done) printf("%s, warning, previous action not complete.\n", __func__);
-        if (num == P1) {
-            [self.p1field.cards addObject:p.cards.lastObject];
-            sprite.zPosition = self.p1field.cards.count + 1;
-        } else {
-            [self.p2field.cards addObject:p.cards.lastObject];
-            sprite.zPosition = self.p2field.cards.count + 1;
-        }
+    [sprite runAction:[SKAction moveTo:[p isEqual:self.p1] ? [self playedcardloc:P1] : [self playedcardloc:P2] duration:DEALSPEED] completion:^(void) {
+        sprite.zPosition = p.cards.count;
+        [[p isEqual:self.p1] ? self.p1field.cards : self.p2field.cards addObject:p.cards.lastObject];
         [p.cards removeLastObject];
-        [self updateScore];
-        if (self.gameState == Dealt) {
-            self.gameState = (num == P1) ? P1CardPlayed : P2CardPlayed;
-        } else if (self.gameState == P1CardPlayed || self.gameState == P2CardPlayed) {
-            self.gameState = BothCardsPlayed;
-            [self actOnWinner];
+        if ([p isEqual:self.p1]) {
+            self.gameState = self.gameState == P2CardPlayed ? BothCardsPlayed : P1CardPlayed;
         } else {
-            abort();
+            self.gameState = self.gameState == P1CardPlayed ? BothCardsPlayed : P2CardPlayed;
         }
+        if (self.gameState == BothCardsPlayed) {
+            printf("check winner here\n");
+            CardClass *card1 = self.p1field.cards.lastObject;
+            CardClass *card2 = self.p2field.cards.lastObject;
+            if (card1.value > card2.value) {
+                self.gameState = P1Wins;
+            } else if (card1.value < card2.value) {
+                self.gameState = P2Wins;
+            } else {
+                self.gameState = Draw;
+            }
+            if (self.gameState != Draw) {
+//                printf("move cards to %s\n", self.gameState == P1Wins ? "P1 Hand" : "P2 Hand");
+                [self sendFieldFrom:self.p1field To:self.gameState == P1Wins ? self.p1 : self.p2 num:0];
+            }
+        }
+        [self updateScore];
+        ready = YES;
     }];
+}
+
+- (void)dumpNodes {
+    for(SKNode *node in self.children) (void)NSLog(@"%@", node);
+}
+
+- (void)sendFieldFrom:(Player *)src To:(Player *)dest num:(NSInteger)num {
+#ifdef DEBUG
+    NSLog(@"%s, %@", __func__, [self gs:self.gameState]);
+#endif
+    if (src.cards.count == 0 || num == src.cards.count) {
+        if ([src isEqual:self.p1field]) {
+            [self sendFieldFrom:self.p2field To:dest num:0];
+        } else {
+            [self.p1field.cards removeAllObjects];
+            [self.p2field.cards removeAllObjects];
+            self.gameState = Dealt;
+            [self updateScore];
+            if (dest.cards.count == DECKSIZE) {
+                [self clearField:0 player:self.p1field];
+            } else {
+                ready = YES;
+            }
+        }
+    } else {
+        CardClass *card = src.cards[num];
+        [self flipCard:card toFace:FACE_DOWN];
+        SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
+        [sprite runAction:[SKAction moveTo:[dest isEqual:self.p1] ? [self handloc:P1] : [self handloc:P2] duration:DEALSPEED] completion:^(void) {
+            printf("put cards in the hand in the right order.\n");
+            [dest.cards addObject:src.cards[num]];
+            sprite.zPosition = dest.cards.count;
+            [self sendFieldFrom:src To:dest num:num + 1];
+        }];
+    }
 }
 
 // move card from p1field, p2field, p1, p2 in order.
@@ -369,8 +334,8 @@ typedef enum {
             [self.p2field.cards removeAllObjects];
             [self.p1.cards removeAllObjects];
             [self.p2.cards removeAllObjects];
-            printf("cards cleared\n");
-            [self dumpCards];
+            self.gameState = NotStarted;
+            [self updateScore];
             ready = YES;
         }
     } else {
@@ -383,115 +348,6 @@ typedef enum {
             [self clearField:num + 1 player:p];
         }];
     }
-}
-
-// send field cards and player cards to dealer then shuffle them
-- (void)clearFieldOLD {
-#ifdef DEBUG
-    NSLog(@"%s, %@", __func__, [self gs:self.gameState]);
-#endif
-    self.gameState = Resetting;
-    CGPoint loc = [self deckloc];
-    for (Player *p in [NSArray arrayWithObjects:self.p1field, self.p2field, self.p1, self.p2, nil]) {
-        NSMutableIndexSet *is = [NSMutableIndexSet indexSet];
-        int i = 0;
-        __block BOOL done = NO;
-        for (CardClass *card in p.cards) {
-            [self flipCard:card toFace:FACE_DOWN];
-            done = NO;
-            [is addIndex:i++];
-            SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-            [sprite runAction:[SKAction sequence:[NSArray arrayWithObjects:[SKAction moveTo:loc duration:DEALSPEED], [SKAction runBlock:^(void){
-                done = ![self hasActions];
-            }], nil]]];
-        }
-        [self runAction:[SKAction waitForDuration:DEALSPEED*2] completion:^(void){
-            if (!done) printf("%s, warning, previous action not complete.\n", __func__);
-            if (is.count > 0) {
-                [self.dealer.cards addObjectsFromArray:[p.cards objectsAtIndexes:is]];
-                [p.cards removeObjectsAtIndexes:is];
-            }
-        }];
-    }
-    [self runAction:[SKAction waitForDuration:DEALSPEED*3] completion:^(void){
-        [self.dealer shuffle];
-        for (int i = 0; i < self.dealer.cards.count; i++) {
-            CardClass *card = self.dealer.cards[i];
-            SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-            sprite.zPosition = i + 1;
-        }
-        self.gameState = NotStarted;
-        [self updateScore];
-    }];
-}
-
-- (void)actOnWinner {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-    assert(self.p1field && self.p1field.cards && self.p1field.cards.count > 0);
-    assert(self.p2field && self.p2field.cards && self.p2field.cards.count > 0);
-    assert(self.gameState == BothCardsPlayed);
-    self.gameState = CheckingWinner;
-    CardClass *pf1 = self.p1field.cards.lastObject;
-    CardClass *pf2 = self.p2field.cards.lastObject;
-    if (pf1.value > pf2.value) {
-        [self sendFieldTo:P1];
-    } else if (pf1.value < pf2.value) {
-        [self sendFieldTo:P2];
-    } else {
-        self.gameState = Dealt;
-    }
-}
-
-- (void)sendFieldTo:(NSInteger)player {
-#ifdef DEBUG
-    NSLog(@"%s", __func__);
-#endif
-    self.gameState = ClearingWinningCards;
-    CGPoint loc = [self handloc:player];
-    Player *destPlayer = (player == P1) ? self.p1 : self.p2;
-    for (Player *p in [NSArray arrayWithObjects:self.p1field, self.p2field, nil]) {
-        NSMutableIndexSet *is = [NSMutableIndexSet indexSet];
-        int i = 0;
-        __block BOOL done = NO;
-        for (CardClass *card in p.cards) {
-            [self flipCard:card toFace:FACE_DOWN];
-            done = NO;
-            [is addIndex:i++];
-            SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-            [sprite runAction:[SKAction sequence:[NSArray arrayWithObjects:[SKAction moveTo:loc duration:DEALSPEED], [SKAction runBlock:^(void){
-                done = ![self hasActions];
-            }], nil]]];
-        }
-        [self runAction:[SKAction waitForDuration:DEALSPEED*2] completion:^(void){
-            if (!done) printf("%s, warning, previous action not complete.\n", __func__);
-            if (is.count > 0) {
-                [destPlayer.cards addObjectsFromArray:[p.cards objectsAtIndexes:is]];
-                [p.cards removeObjectsAtIndexes:is];
-            }
-            [self updateScore];
-        }];
-    }
-    [self runAction:[SKAction waitForDuration:DEALSPEED*3] completion:^(void){
-        for (int i = 0; i < destPlayer.cards.count; i++) {
-            CardClass *card = destPlayer.cards[i];
-            SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-            sprite.zPosition = i + 1;
-        }
-        [self updateScore];
-        if (destPlayer.cards.count == DECKSIZE) {
-            if (player == P1) {
-                self.p1.score++;
-            } else {
-                self.p2.score++;
-            }
-            [self clearFieldOLD];
-        } else {
-            self.gameState = Dealt;
-        }
-        [self updateScore];
-    }];
 }
 
 #pragma mark -
