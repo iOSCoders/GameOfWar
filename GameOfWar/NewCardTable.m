@@ -16,8 +16,8 @@
 #define DELAYSPEED (0.75)
 #define CARDSCALE (0.3)
 
-//#define DECKSIZE (NSUITS * NCARDS)
-#define DECKSIZE 4
+#define DECKSIZE (NSUITS * NCARDS)
+//#define DECKSIZE 4
 
 #define kDEAL @"Deal"
 #define kPLAYAGAIN @"Play Again"
@@ -110,6 +110,7 @@ typedef enum {
     ADDBUTTON(p1wins, kP1WINS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeRight, [self winsloc:P1]);
     ADDBUTTON(p2wins, kP2WINS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeRight, [self winsloc:P2]);
     [self displayCards:self.dealer at:[self deckloc] withScale:CARDSCALE];
+    self.gameState = NotStarted;
 }
 
 - (void)didEvaluateActions {
@@ -142,7 +143,10 @@ typedef enum {
         [self clearField:0 player:self.p1field];
     } else if ([node.name isEqualToString:kP1SHUFFLE]) {
         ready = NO;
-        [self moveInACircle];
+        [self shuffleHand:self.p1];
+    } else if ([node.name isEqualToString:kP2SHUFFLE]) {
+        ready = NO;
+        [self shuffleHand:self.p2];
     } else {
         //abort();
         [self dumpCards];
@@ -230,6 +234,7 @@ typedef enum {
 #ifdef DEBUG
     NSLog(@"%s", __func__);
 #endif
+    if (num == 0) [self.dealer shuffle];
     CardClass *card = self.dealer.cards[num];
     [self flipCard:card toFace:FACE_DOWN];
     SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
@@ -255,7 +260,7 @@ typedef enum {
     [self flipCard:card toFace:FACE_UP];
     SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
     [sprite runAction:[SKAction moveTo:[p isEqual:self.p1] ? [self playedcardloc:P1] : [self playedcardloc:P2] duration:DEALSPEED] completion:^(void) {
-        sprite.zPosition = p.cards.count;
+        sprite.zPosition = [p isEqual:self.p1] ? self.p1field.cards.count + 1 : self.p2field.cards.count + 1;
         [[p isEqual:self.p1] ? self.p1field.cards : self.p2field.cards addObject:p.cards.lastObject];
         [p.cards removeLastObject];
         if ([p isEqual:self.p1]) {
@@ -264,7 +269,6 @@ typedef enum {
             self.gameState = self.gameState == P1CardPlayed ? BothCardsPlayed : P2CardPlayed;
         }
         if (self.gameState == BothCardsPlayed) {
-            printf("check winner here\n");
             CardClass *card1 = self.p1field.cards.lastObject;
             CardClass *card2 = self.p2field.cards.lastObject;
             if (card1.value > card2.value) {
@@ -280,6 +284,9 @@ typedef enum {
             }
         }
         [self updateScore];
+        if (self.gameState == Draw) {
+            self.gameState = Dealt;
+        }
         ready = YES;
     }];
 }
@@ -301,6 +308,8 @@ typedef enum {
             self.gameState = Dealt;
             [self updateScore];
             if (dest.cards.count == DECKSIZE) {
+                if ([dest isEqual:self.p1]) self.p1.score++; else self.p2.score++;
+                [self updateScore];
                 [self clearField:0 player:self.p1field];
             } else {
                 ready = YES;
@@ -311,7 +320,7 @@ typedef enum {
         [self flipCard:card toFace:FACE_DOWN];
         SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
         [sprite runAction:[SKAction moveTo:[dest isEqual:self.p1] ? [self handloc:P1] : [self handloc:P2] duration:DEALSPEED] completion:^(void) {
-            printf("put cards in the hand in the right order.\n");
+            printf("put cards in the hand in the right order. seems to work, I got lucky without checking the logic\n");
             [dest.cards addObject:src.cards[num]];
             sprite.zPosition = dest.cards.count;
             [self sendFieldFrom:src To:dest num:num + 1];
@@ -352,11 +361,41 @@ typedef enum {
     }
 }
 
+- (void)shuffleHand:(Player *)p {
+#ifdef DEBUG
+    NSLog(@"%s, %@", __func__, [self gs:self.gameState]);
+#endif
+    msg.text = [p isEqual:self.p1] ? @"Player 1 Shuffling" : @"Player 2 Shuffling";
+    [p shuffle];
+    for (int num = 0; num < p.cards.count; num++) {
+        CardClass *card = p.cards[num];
+        [self flipCard:card toFace:FACE_DOWN];
+        SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
+        sprite.zPosition = num + 1;
+    }
+    self.gameState = self.gameState; //update msg
+    ready = YES;
+}
+
 #pragma mark -
 
 - (void)setGameState:(GameState)gameState {
     NSLog(@"%@ -> %@", [self gs:_gameState], [self gs:gameState]);
     _gameState = gameState;
+    switch (gameState) {
+        case NotStarted: msg.text = @"Ready to Deal"; break;
+        case Dealing: msg.text = @"Dealing"; break;
+        case Dealt: msg.text = @"Play a Card"; break;
+        case P1CardPlayed: msg.text = @"Player 2's Turn"; break;
+        case P2CardPlayed: msg.text = @"Player 1's Turn"; break;
+        case BothCardsPlayed: msg.text = @"Both Cards Played"; break;
+        case CheckingWinner: msg.text = @"Checking who Won"; break;
+        case P1Wins: msg.text = @"Player 1 Wins"; break;
+        case P2Wins: msg.text = @"Player 2 Wins"; break;
+        case Draw: msg.text = @"Draw"; break;
+        case ClearingWinningCards: msg.text = @"Clearing Field"; break;
+        case Resetting: msg.text = @"Resetting"; break;
+    }
 }
 
 - (NSString *)gs:(GameState)s {
