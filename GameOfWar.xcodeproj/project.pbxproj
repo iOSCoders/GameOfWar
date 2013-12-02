@@ -45,7 +45,7 @@
 
 /* Begin PBXFileReference section */
 		3B2EF90518483A63000080E0 /* NewCardTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewCardTable.h; sourceTree = "<group>"; };
-		3B2EF90618483A63000080E0 /* NewCardTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewCardTable.m; sourceTree = "<group>"; };
+		3B2EF90618483A63000080E0 /* NewCardTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NewCardTable.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3B2EF90818483CE4000080E0 /* NewCardTable+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NewCardTable+Layout.h"; sourceTree = "<group>"; };
 		3B2EF90918483CE4000080E0 /* NewCardTable+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NewCardTable+Layout.m"; sourceTree = "<group>"; };
 		3B6537141845A6B5008AD9C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -69,7 +69,7 @@
 		3BB2E5A4184435CA00A9F6F7 /* GameOfWarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameOfWarTests-Info.plist"; sourceTree = "<group>"; };
 		3BB2E5A6184435CA00A9F6F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB2E5A8184435CA00A9F6F7 /* GameOfWarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameOfWarTests.m; sourceTree = "<group>"; };
-		3BB2E5B2184437F200A9F6F7 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		3BB2E5B2184437F200A9F6F7 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Button.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3BB2E5B3184437F200A9F6F7 /* CardClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardClass.h; sourceTree = "<group>"; };
 		3BB2E5B4184437F200A9F6F7 /* CardsClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardsClass.h; sourceTree = "<group>"; };
 		3BB2E5B9184437F200A9F6F7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };

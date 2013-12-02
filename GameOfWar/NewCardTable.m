@@ -99,16 +99,16 @@ typedef enum {
     [self addChild:sprite];
     
     // add the buttons
-    ADDBUTTON(p1Button, kP1BUTTON, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeCenter, [self handbuttonloc:P1]);
-    ADDBUTTON(reset, kPLAYAGAIN, SKLabelVerticalAlignmentModeCenter, SKLabelHorizontalAlignmentModeRight, [self resetloc]);
-    ADDBUTTON(reset, kP2BUTTON, SKLabelVerticalAlignmentModeBottom, SKLabelHorizontalAlignmentModeCenter, [self handbuttonloc:P2]);
-    ADDBUTTON(msg, kFINISH_HAND, SKLabelVerticalAlignmentModeCenter, SKLabelHorizontalAlignmentModeCenter, [self msgloc]);
-    ADDBUTTON(p1score, kP1CARDS, SKLabelVerticalAlignmentModeCenter, SKLabelHorizontalAlignmentModeCenter, [self scoreloc:P1]);
-    ADDBUTTON(p2score, kP2CARDS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeCenter, [self scoreloc:P2]);
-    ADDBUTTON2(p1shuffle, kP1SHUFFLE, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeLeft, [self shuffleloc:P1], @"Shuffle");
-    ADDBUTTON2(p2shuffle, kP2SHUFFLE, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeLeft, [self shuffleloc:P2], @"Shuffle");
-    ADDBUTTON(p1wins, kP1WINS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeRight, [self winsloc:P1]);
-    ADDBUTTON(p2wins, kP2WINS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeRight, [self winsloc:P2]);
+    ADDBUTTON(p1Button, kP1BUTTON, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeCenter, [self handbuttonloc:P1], NO);
+    ADDBUTTON(reset, kPLAYAGAIN, SKLabelVerticalAlignmentModeCenter, SKLabelHorizontalAlignmentModeCenter, [self resetloc], YES);
+    ADDBUTTON(reset, kP2BUTTON, SKLabelVerticalAlignmentModeBottom, SKLabelHorizontalAlignmentModeCenter, [self handbuttonloc:P2], NO);
+    ADDBUTTON(msg, kFINISH_HAND, SKLabelVerticalAlignmentModeCenter, SKLabelHorizontalAlignmentModeCenter, [self msgloc], NO);
+    ADDBUTTON(p1score, kP1CARDS, SKLabelVerticalAlignmentModeCenter, SKLabelHorizontalAlignmentModeCenter, [self scoreloc:P1], NO);
+    ADDBUTTON(p2score, kP2CARDS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeCenter, [self scoreloc:P2], NO);
+    ADDBUTTON2(p1shuffle, kP1SHUFFLE, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeCenter, [self shuffleloc:P1], @"Shuffle", YES);
+    ADDBUTTON2(p2shuffle, kP2SHUFFLE, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeCenter, [self shuffleloc:P2], @"Shuffle", YES);
+    ADDBUTTON(p1wins, kP1WINS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeRight, [self winsloc:P1], NO);
+    ADDBUTTON(p2wins, kP2WINS, SKLabelVerticalAlignmentModeTop, SKLabelHorizontalAlignmentModeRight, [self winsloc:P2], NO);
     [self displayCards:self.dealer at:[self deckloc] withScale:CARDSCALE];
     self.gameState = NotStarted;
 }
@@ -148,8 +148,8 @@ typedef enum {
         ready = NO;
         [self shuffleHand:self.p2];
     } else {
-        //abort();
-        [self dumpCards];
+//        abort();
+//        [self dumpCards];
         printf("ignored\n");
     }
 }
@@ -238,7 +238,7 @@ typedef enum {
     CardClass *card = self.dealer.cards[num];
     [self flipCard:card toFace:FACE_DOWN];
     SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-    [sprite runAction:[SKAction moveTo:[self handloc:(num % 2) == 0 ? P1 : P2] duration:DEALSPEED] completion:^(void) {
+    [sprite runAction:[SKAction moveTo:[self handloc:(num % 2) == 0 ? P1 : P2] duration:DEALSPEED/3] completion:^(void) {
         [(num % 2) == 0 ? self.p1.cards : self.p2.cards addObject:self.dealer.cards[num]];
         sprite.zPosition = (num % 2) == 0 ? self.p1.cards.count : self.p2.cards.count;
         if (num < self.dealer.cards.count - 1) {
@@ -317,10 +317,12 @@ typedef enum {
         }
     } else {
         CardClass *card = src.cards[num];
-        [self flipCard:card toFace:FACE_DOWN];
         SKSpriteNode *sprite = (SKSpriteNode *)[self childNodeWithName:card.cardKey];
-        [sprite runAction:[SKAction moveTo:[dest isEqual:self.p1] ? [self handloc:P1] : [self handloc:P2] duration:DEALSPEED] completion:^(void) {
-            printf("put cards in the hand in the right order. seems to work, I got lucky without checking the logic\n");
+        [sprite runAction:[SKAction sequence:[NSArray arrayWithObjects:[SKAction waitForDuration:0.5],
+                                              [SKAction moveTo:[dest isEqual:self.p1] ? [self handloc:P1] : [self handloc:P2] duration:DEALSPEED],
+                                                            nil]] completion:^(void) {
+//            printf("put cards in the hand in the right order. seems to work, I got lucky without checking the logic\n");
+            [self flipCard:card toFace:FACE_DOWN];
             [dest.cards addObject:src.cards[num]];
             sprite.zPosition = dest.cards.count;
             [self sendFieldFrom:src To:dest num:num + 1];
@@ -420,7 +422,7 @@ typedef enum {
     p2score.text = [NSString stringWithFormat:@"(%d)", self.p2.cards.count];
     p1wins.text = self.p1.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", self.p1.score];
     p2wins.text = self.p2.score == 0 ? @"No Games Won" : [NSString stringWithFormat:@"%d Games Won", self.p2.score];
-    [self dumpCards];
+    //[self dumpCards];
 }
 
 

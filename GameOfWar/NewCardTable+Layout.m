@@ -129,15 +129,22 @@ static FrameWork framework;
 }
 
 - (CGPoint)resetloc {
-    return CGPointMake(framework.mr.x + self.fontsize, framework.mr.y);
+    CGPoint p = [self playedcardloc:P2];
+    p = CGPointMake(p.x + self.cardSize.width, p.y);
+    return p;
+    //return CGPointMake(framework.mr.x + self.fontsize, framework.mr.y);
 }
 
 - (CGPoint)shuffleloc:(NSInteger)player {
     if (player == P1) {
-        return [self ul];
+        CGPoint p = [self ul];
+        p = CGPointMake(p.x + inset.width, p.y);
+        return p;
     }
     if (player == P2) {
-        return [self ll];
+        CGPoint p = [self ll];
+        p = CGPointMake(p.x + inset.width, p.y);
+        return p;
     }
     abort();
 }

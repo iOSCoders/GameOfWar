@@ -12,9 +12,9 @@
 
 @property (nonatomic, strong) SKShapeNode *shadow;
 
-#define ADDBUTTON(tmp, name, v, h, p) tmp = [[Button alloc] init]; [tmp addButtonWithName:name andV:v andH:h andPosition:p toScene:self];
-#define ADDBUTTON2(tmp, name, v, h, p, t) tmp = [[Button alloc] init]; [tmp addButtonWithName:name andV:v andH:h andPosition:p toScene:self]; tmp.text = t;
+#define ADDBUTTON(tmp, name, v, h, p, w) tmp = [[Button alloc] init]; [tmp addButtonWithName:name andV:v andH:h andPosition:p toScene:self withShadow:w];
+#define ADDBUTTON2(tmp, name, v, h, p, t, w) tmp = [[Button alloc] init]; [tmp addButtonWithName:name andV:v andH:h andPosition:p toScene:self withShadow:w]; tmp.text = t;
 
-- (void)addButtonWithName:(NSString *)name andV:(SKLabelVerticalAlignmentMode)vm andH:(SKLabelHorizontalAlignmentMode)hm andPosition:(CGPoint)p toScene:(SKScene *)scene;
+- (void)addButtonWithName:(NSString *)name andV:(SKLabelVerticalAlignmentMode)vm andH:(SKLabelHorizontalAlignmentMode)hm andPosition:(CGPoint)p toScene:(SKScene *)scene withShadow:(BOOL)withShadow;
 
 @end
