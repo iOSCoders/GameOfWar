@@ -40,7 +40,8 @@
 }
 
 - (void)shuffle {
-    assert(_cards != nil && _cards.count > 0);
+    //    assert(_cards != nil && _cards.count > 0);
+    if (_cards == nil || _cards.count == 0) return;
     NSMutableArray *a = [NSMutableArray array];
     unsigned int t = (unsigned int)time(NULL);
     srandom(t);
